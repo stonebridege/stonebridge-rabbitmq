@@ -23,7 +23,7 @@ public class Consumer {
         //6.推送的消息如何进行消费的接口回调
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody());
-            System.out.println(message);
+            System.out.println("接受的消息是：" + message);
         };
 
         //7.取消消费的一个回调接口 如在消费的时候队列被删除掉了
