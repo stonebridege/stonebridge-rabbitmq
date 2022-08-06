@@ -1,6 +1,7 @@
 package com.stonebridge.rabbitmq.three;
 
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.MessageProperties;
 import com.stonebridge.rabbitmq.utils.RabbitMqUtils;
 
 import java.util.Scanner;
@@ -15,13 +16,15 @@ public class Task02 {
         //1.获取信道
         Channel channel = RabbitMqUtils.getChannel();
         //2.声明队列
-        channel.queueDeclare(TASK_QUEUE_NAME, false, false, false, null);
+        boolean durable = true; //需要让Queue进行持久化
+        channel.queueDeclare(TASK_QUEUE_NAME, durable, false, false, null);
         //3.从控制台中输入信息
         //从控制台输入信息
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String message = scanner.next();
-            channel.basicPublish("", TASK_QUEUE_NAME, null, message.getBytes("UTF-8"));
+            //设置生产者发送消息为持久化消息(要求保存到磁盘上)，如果不设置则保存在内存上。
+            channel.basicPublish("", TASK_QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
             System.out.println("发送消息完成:" + message);
         }
     }
