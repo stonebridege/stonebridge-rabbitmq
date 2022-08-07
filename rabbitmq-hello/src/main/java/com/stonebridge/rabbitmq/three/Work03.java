@@ -35,8 +35,10 @@ public class Work03 {
         CancelCallback cancelCallback = (consumerTag) -> {
             System.out.println("消息消费被中断");
         };
-        int prefetchSize = 1;
-        //设置不公平分发
+//        int prefetchSize = 1;
+//        //设置不公平分发
+        int prefetchSize = 2;
+        //预取值
         channel.basicQos(prefetchSize);
         //采用手动应答
         boolean autoAck = false;
