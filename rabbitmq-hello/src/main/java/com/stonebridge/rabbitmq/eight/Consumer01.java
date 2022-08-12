@@ -58,9 +58,18 @@ public class Consumer01 {
         System.out.println("Consumer01等待接受的消息，把接收的消息打印在屏幕上……");
         //7.接收消息
         DeliverCallback deliverCallback = (String consumerTag, Delivery message) -> {
-            System.out.println("Consumer01打印接收到的消息：" + new String(message.getBody(), StandardCharsets.UTF_8));
+            String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+            if (msg.equals("info5")) {
+                System.out.println("Consumer01 接收到消息" + msg + "并拒绝签收该消息");
+                //requeue 设置为 false 代表拒绝重新入队 该队列如果配置了死信交换机将发送到死信队列中
+                channel.basicReject(message.getEnvelope().getDeliveryTag(), false);
+            } else {
+                System.out.println("Consumer01 接收到消息" + msg);
+                channel.basicAck(message.getEnvelope().getDeliveryTag(), false);
+            }
         };
-        channel.basicConsume(NORMAL_QUEUE, true, deliverCallback, CancelCallback -> {
+        //开启手动应答
+        channel.basicConsume(NORMAL_QUEUE, false, deliverCallback, CancelCallback -> {
         });
     }
 }
