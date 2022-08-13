@@ -16,6 +16,6 @@ public class DeadLetterConsumer {
     @RabbitListener(queues = "QD")
     public void receiveD(Message message, Channel channel) {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
-        log.info("当前时间：{},收到死信队列消息：{}", DateUtil.getDateStr(new Date()), msg);
+        log.info("当前时间:{},收到死信队列消息:{}", DateUtil.getDateStr(new Date()), msg);
     }
 }

@@ -30,4 +30,16 @@ public class SendMsgController {
         rabbitTemplate.convertAndSend("X", "XB", "消息来自ttl为40s队列：" + message + ";消费端发出时间为：" + dateStr);
         log.info("当前时间：{},发出的死信队列消息：{}", dateStr, message);
     }
+
+    //开始发消息(包括消息和TTL)
+    @GetMapping("sendExpirationMsg/{message}/{ttl}")
+    public void sendMsg(@PathVariable("message") String message, @PathVariable("ttl") String ttl) {
+        String dateStr = DateUtil.getDateStr(new Date());
+        log.info("当前时间:{},发送一条消息时长为:{}毫秒的信息给队列QC:{}", dateStr, ttl, message);
+        rabbitTemplate.convertAndSend("X", "XC", message, msg -> {
+            //设置发消息的延迟时长
+            msg.getMessageProperties().setExpiration(ttl);
+            return msg;
+        });
+    }
 }
