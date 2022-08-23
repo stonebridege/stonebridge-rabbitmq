@@ -49,9 +49,9 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         String id = correlationData != null ? correlationData.getId() : "";
         if (ack) {
-            log.info("交换机已经收到 id 为:{}的消息", id);
+            log.info("回调函数触发;交换机已经收到 id 为:{}的消息", id);
         } else {
-            log.info("交换机还未收到 id 为:{}消息,由于原因:{}", id, cause);
+            log.info("回调函数触发;交换机还未收到 id 为:{}消息,由于原因:{}", id, cause);
         }
     }
 

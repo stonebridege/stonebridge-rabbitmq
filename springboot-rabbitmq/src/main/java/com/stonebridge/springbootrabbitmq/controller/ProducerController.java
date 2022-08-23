@@ -23,7 +23,6 @@ public class ProducerController {
 
     /**
      * 开始发消息，测试确认
-     *
      * @param message ：要发送的消息
      */
     @GetMapping("/sendConfirmMsg/{message}")

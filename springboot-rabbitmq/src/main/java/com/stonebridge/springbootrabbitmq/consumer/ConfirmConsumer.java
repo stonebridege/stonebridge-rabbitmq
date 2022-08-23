@@ -18,6 +18,6 @@ public class ConfirmConsumer {
     public void receiveConfirmMsg(Message message, Channel channel) {
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
         String routingKey = message.getMessageProperties().getReceivedRoutingKey();
-        log.info("当前时间:{},收到confirm.queue消息:{},其routingKey:{}", DateUtil.getDateStr(new Date()), msg, routingKey);
+        log.info("<消费者>收到当前时间:{},收到confirm.queue消息:{},其routingKey:{}", DateUtil.getDateStr(new Date()), msg, routingKey);
     }
 }
